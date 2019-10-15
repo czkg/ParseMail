@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toolbar;
 
 import javax.mail.AuthenticationFailedException;
@@ -22,6 +23,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
+        ImageButton gmailButton = (ImageButton) findViewById(R.id.gmailButton);
+        ImageButton outlookButton = (ImageButton) findViewById(R.id.outlookButton);
+        ImageButton qqButton = (ImageButton) findViewById(R.id.qqButton);
+        ImageButton yahooButton = (ImageButton) findViewById(R.id.yahooButton);
     }
 }
