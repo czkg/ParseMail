@@ -3,9 +3,10 @@ package com.zhichai.parsemail;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.Toolbar;
+import android.view.View;
 
 import javax.mail.AuthenticationFailedException;
 import javax.mail.MessagingException;
@@ -27,5 +28,12 @@ public class MainActivity extends AppCompatActivity {
         ImageButton outlookButton = (ImageButton) findViewById(R.id.outlookButton);
         ImageButton qqButton = (ImageButton) findViewById(R.id.qqButton);
         ImageButton yahooButton = (ImageButton) findViewById(R.id.yahooButton);
+
+        gmailButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
     }
 }
