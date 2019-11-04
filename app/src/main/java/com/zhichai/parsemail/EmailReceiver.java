@@ -40,4 +40,16 @@ public class EmailReceiver {
 
         return properties;
     }
+
+    /*
+    Downloads new message and fetches details for each message.
+    @param protocol
+    @param host
+    @param port
+    @param username
+    @param password
+     */
+    public void downloadEmails(String protocol, String host, String port, String username, String password) {}
+
+
 }
