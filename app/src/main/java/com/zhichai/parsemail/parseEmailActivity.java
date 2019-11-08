@@ -2,6 +2,7 @@ package com.zhichai.parsemail;
 
 import androidx.appcompat.app.AppCompatActivity;
 import com.zhichai.parsemail.EmailReceiver;
+import com.zhichai.parsemail.Email;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,24 +18,12 @@ public class parseEmailActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String address = intent.getStringExtra("address");
         String password = intent.getStringExtra("password");
+        Email email = new EmailBuilder()
+                .address(address)
+                .password(password)
+                .buildEmail();
         EmailReceiver receiver = new EmailReceiver();
+        receiver.downloadEmails(email.getProtocol(), email.getHost(), email.getPort(), email.getAddress(), email.getPassword());
 
-//        // parameters
-//        String protocol = "pop3";
-//        String host = "pop.gmail.com";
-//        String port = "995";
-
-        // for IMAP
-        String protocol = "imap";
-        String host = "imap.gmail.com";
-        String port = "993";
-
-        receiver.downloadEmails(protocol, host, port, address, password);
-
-    }
-
-    private void parseDomain(String address) {
-        int idx = address.indexOf('@');
-        String domain = address.substring(idx+1);
     }
 }
