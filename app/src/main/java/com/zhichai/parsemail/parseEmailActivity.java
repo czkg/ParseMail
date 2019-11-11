@@ -6,6 +6,7 @@ import com.zhichai.parsemail.Email;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 public class parseEmailActivity extends AppCompatActivity {
 
@@ -23,7 +24,21 @@ public class parseEmailActivity extends AppCompatActivity {
                 .password(password)
                 .buildEmail();
         EmailReceiver receiver = new EmailReceiver();
-        receiver.downloadEmails(email.getProtocol(), email.getHost(), email.getPort(), email.getAddress(), email.getPassword());
+        receiver.downloadEmails(email.getProtocol(),
+                                email.getHost(),
+                                email.getPort(),
+                                email.getAddress(),
+                                email.getPassword(),
+                                futureDate,
+                                pastDate);
+
+    }
+
+    public void setStartTime(View view) {
+        
+    }
+
+    public void setEndTime(View view) {
 
     }
 }

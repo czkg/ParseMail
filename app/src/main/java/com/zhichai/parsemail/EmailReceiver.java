@@ -1,6 +1,7 @@
 package com.zhichai.parsemail;
 
 import java.util.Properties;
+import java.util.Date;
 
 import javax.mail.Address;
 import javax.mail.Folder;
@@ -10,6 +11,10 @@ import javax.mail.MessagingException;
 import javax.mail.NoSuchProviderException;
 import javax.mail.Session;
 import javax.mail.Store;
+import javax.mail.search.SearchTerm;
+import javax.mail.search.ReceivedDateTerm;
+import javax.mail.search.ComparisonTerm;
+import javax.mail.search.AndTerm;
 
 
 
@@ -49,7 +54,13 @@ public class EmailReceiver {
     @param username
     @param password
      */
-    public void downloadEmails(String protocol, String host, String port, String username, String password) {
+    public void downloadEmails(String protocol,
+                               String host,
+                               String port,
+                               String username,
+                               String password,
+                               Date FutureDate,
+                               Date PastDate) {
         Properties properties = getServerProperties(protocol, host, port);
         Session session = Session.getDefaultInstance(properties);
 
@@ -61,6 +72,11 @@ public class EmailReceiver {
             // open the inbox folder
             Folder folderInbox = store.getFolder("INBOX");
             folderInbox.open(Folder.READ_ONLY);
+
+            SearchTerm olderThan = new ReceivedDateTerm(ComparisonTerm.LT, FutureDate);
+            SearchTerm newerThan = new ReceivedDateTerm(ComparisonTerm.GT, PastDate);
+            SearchTerm andTerm = new AndTerm(olderThan, newerThan);
+            folderInbox.search(andTerm);
 
             // fetch new messages from server
             Message[] messages = folderInbox.getMessages();
@@ -130,28 +146,6 @@ public class EmailReceiver {
         }
 
         return listAddress;
-    }
-
-    /**
-     * Test downloading e-mail messages
-     */
-    public static void main(String[] args) {
-        // for POP3
-        //String protocol = "pop3";
-        //String host = "pop.gmail.com";
-        //String port = "995";
-
-        // for IMAP
-        String protocol = "imap";
-        String host = "imap.gmail.com";
-        String port = "993";
-
-
-        String userName = "your_email_address";
-        String password = "your_email_password";
-
-        EmailReceiver receiver = new EmailReceiver();
-        receiver.downloadEmails(protocol, host, port, userName, password);
     }
 
 }
