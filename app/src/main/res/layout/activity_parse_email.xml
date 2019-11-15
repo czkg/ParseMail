@@ -27,12 +27,12 @@
                 android:textColor="#333333" />
 
             <Button
-                android:id="@+id/changeStartTimeButton"
-                android:layout_width="wrap_content"
+                android:id="@+id/startTimeButton"
+                android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="4dp"
-                android:onClick="setStartTime"
+                android:onClick="onCreateDateDialog"
                 android:text="choose" />
 
         </LinearLayout>
@@ -52,12 +52,12 @@
                 android:textColor="#333333" />
 
             <Button
-                android:id="@+id/changeEndTimeButton"
-                android:layout_width="wrap_content"
+                android:id="@+id/endTimeButton"
+                android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="4dp"
-                android:onClick="setEndTime"
+                android:onClick="onCreateDateDialog"
                 android:text="choose" />
 
         </LinearLayout>
