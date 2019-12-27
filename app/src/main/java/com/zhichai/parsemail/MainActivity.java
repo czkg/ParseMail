@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void sendMessage(View view) {
-        Intent intent = new Intent(this, parseEmailActivity.class);
+        Intent intent = new Intent(MainActivity.this, parseEmailActivity.class);
         EditText textEmailAddress = (EditText) findViewById(R.id.emailAddress);
         EditText textEmailPassword = (EditText) findViewById(R.id.emailPassword);
 
@@ -47,5 +47,6 @@ public class MainActivity extends AppCompatActivity {
         String emailPassword = textEmailPassword.getText().toString();
         intent.putExtra("address", emailAddress);
         intent.putExtra("password", emailPassword);
+        MainActivity.this.startActivity(intent);
     }
 }

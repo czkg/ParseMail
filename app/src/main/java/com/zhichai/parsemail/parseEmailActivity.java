@@ -14,12 +14,11 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 
 import java.util.Calendar;
+import java.util.Date;
 
 public class parseEmailActivity extends AppCompatActivity {
-    final EditText startTimeText = (EditText) findViewById(R.id.startTimeText);
-    final EditText endTimeText = (EditText) findViewById(R.id.endTimeText);
-    final Button startTimeButton = (Button) findViewById(R.id.startTimeButton);
-    final Button endTimeButton = (Button) findViewById(R.id.endTimeButton);
+    Email email;
+    EmailReceiver receiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,19 +29,11 @@ public class parseEmailActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String address = intent.getStringExtra("address");
         String password = intent.getStringExtra("password");
-        Email email = new EmailBuilder()
+        email = new EmailBuilder()
                 .address(address)
                 .password(password)
                 .buildEmail();
-        EmailReceiver receiver = new EmailReceiver();
-        receiver.downloadEmails(email.getProtocol(),
-                                email.getHost(),
-                                email.getPort(),
-                                email.getAddress(),
-                                email.getPassword(),
-                                futureDate,
-                                pastDate);
-
+        receiver = new EmailReceiver();
     }
 
     public void onCreateDateDialog(View v) {
@@ -51,13 +42,59 @@ public class parseEmailActivity extends AppCompatActivity {
         int mMonth = c.get(Calendar.MONTH);
         int mDay = c.get(Calendar.DAY_OF_MONTH);
 
+        int bid = v.getId();
+        int tid = 0;
+        if(bid == R.id.startTimeButton) {
+            tid = R.id.startTimeText;
+        }
+        else if(bid == R.id.endTimeButton) {
+            tid = R.id.endTimeText;
+        }
+        final EditText txtDate = (EditText) findViewById(tid);
         DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                txtDate.setText(day + "-" + (month + 1) + "-" + year);
+                txtDate.setText((month + 1) + "-" + day + "-" + year);
             }
         }, mYear, mMonth, mDay);
         datePickerDialog.show();
+    }
+
+    public void onClickSubmitButton(View v) {
+        final EditText startEditText = (EditText) findViewById(R.id.startTimeText);
+        final EditText endEditText = (EditText) findViewById(R.id.endTimeText);
+        String startTime = startEditText.getText().toString();
+        String endTime = endEditText.getText().toString();
+
+        int ll = startTime.indexOf('-');
+        int rr = startTime.indexOf('-', ll + 1);
+        String sMonth = startTime.substring(0, ll);
+        String sDay = startTime.substring(ll+1, rr);
+        String sYear = startTime.substring(rr+1);
+
+        ll = endTime.indexOf('-');
+        rr = endTime.indexOf('-', ll + 1);
+        String eMonth = endTime.substring(0, ll);
+        String eDay = endTime.substring(ll+1, rr);
+        String eYear = endTime.substring(rr+1);
+
+        int isYear = Integer.parseInt(sYear);
+        int isMonth = Integer.parseInt(sMonth);
+        int isDay = Integer.parseInt(sDay);
+        int ieYear = Integer.parseInt(eYear);
+        int ieMonth = Integer.parseInt(eMonth);
+        int ieDay = Integer.parseInt(eDay);
+
+        Date sDate = new Date(isYear, isMonth, isDay);
+        Date eDate = new Date(ieYear, ieMonth, ieDay);
+
+        receiver.downloadEmails(email.getProtocol(),
+                email.getHost(),
+                email.getPort(),
+                email.getAddress(),
+                email.getPassword(),
+                eDate,
+                sDate);
     }
 
 }
