@@ -15,6 +15,8 @@ import android.widget.EditText;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.text.SimpleDateFormat;
+import java.text.ParseException;
 
 public class parseEmailActivity extends AppCompatActivity {
     Email email;
@@ -34,6 +36,14 @@ public class parseEmailActivity extends AppCompatActivity {
                 .password(password)
                 .buildEmail();
         receiver = new EmailReceiver();
+    }
+
+    public static Date parseDate(String date) {
+        try {
+            return new SimpleDateFormat("yyyy-MM-dd").parse(date);
+        } catch (ParseException e) {
+            return null;
+        }
     }
 
     public void onCreateDateDialog(View v) {
@@ -63,38 +73,41 @@ public class parseEmailActivity extends AppCompatActivity {
     public void onClickSubmitButton(View v) {
         final EditText startEditText = (EditText) findViewById(R.id.startTimeText);
         final EditText endEditText = (EditText) findViewById(R.id.endTimeText);
-        String startTime = startEditText.getText().toString();
-        String endTime = endEditText.getText().toString();
+        String startTimeString = startEditText.getText().toString();
+        String endTimeString = endEditText.getText().toString();
 
-        int ll = startTime.indexOf('-');
-        int rr = startTime.indexOf('-', ll + 1);
-        String sMonth = startTime.substring(0, ll);
-        String sDay = startTime.substring(ll+1, rr);
-        String sYear = startTime.substring(rr+1);
+//        int ll = startTime.indexOf('-');
+//        int rr = startTime.indexOf('-', ll + 1);
+//        String sMonth = startTime.substring(0, ll);
+//        String sDay = startTime.substring(ll+1, rr);
+//        String sYear = startTime.substring(rr+1);
+//
+//        ll = endTime.indexOf('-');
+//        rr = endTime.indexOf('-', ll + 1);
+//        String eMonth = endTime.substring(0, ll);
+//        String eDay = endTime.substring(ll+1, rr);
+//        String eYear = endTime.substring(rr+1);
+//
+//        int isYear = Integer.parseInt(sYear);
+//        int isMonth = Integer.parseInt(sMonth);
+//        int isDay = Integer.parseInt(sDay);
+//        int ieYear = Integer.parseInt(eYear);
+//        int ieMonth = Integer.parseInt(eMonth);
+//        int ieDay = Integer.parseInt(eDay);
 
-        ll = endTime.indexOf('-');
-        rr = endTime.indexOf('-', ll + 1);
-        String eMonth = endTime.substring(0, ll);
-        String eDay = endTime.substring(ll+1, rr);
-        String eYear = endTime.substring(rr+1);
+//        Date sDate = new Date(isYear, isMonth, isDay);
+//        Date eDate = new Date(ieYear, ieMonth, ieDay);
 
-        int isYear = Integer.parseInt(sYear);
-        int isMonth = Integer.parseInt(sMonth);
-        int isDay = Integer.parseInt(sDay);
-        int ieYear = Integer.parseInt(eYear);
-        int ieMonth = Integer.parseInt(eMonth);
-        int ieDay = Integer.parseInt(eDay);
-
-        Date sDate = new Date(isYear, isMonth, isDay);
-        Date eDate = new Date(ieYear, ieMonth, ieDay);
+        Date startDate = parseDate(startTimeString);
+        Date endDate = parseDate(endTimeString);
 
         receiver.downloadEmails(email.getProtocol(),
                 email.getHost(),
                 email.getPort(),
                 email.getAddress(),
                 email.getPassword(),
-                eDate,
-                sDate);
+                startDate,
+                endDate);
     }
 
 }
